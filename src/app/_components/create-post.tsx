@@ -18,15 +18,18 @@ export function CreatePost() {
 
   return (
     <form
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
-        createPost.mutate({ name });
+        await createPost.mutateAsync({ name });
       }}
       className="flex flex-col gap-2"
     >
+      <label>
+        Press Submit to make the session.save() run inside the mutate procedure
+      </label>
       <input
         type="text"
-        placeholder="Title"
+        placeholder="Just Submit tbh"
         value={name}
         onChange={(e) => setName(e.target.value)}
         className="w-full rounded-full px-4 py-2 text-black"

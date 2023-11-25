@@ -7,8 +7,11 @@
  * need to use are documented accordingly near the end.
  */
 import { initTRPC } from "@trpc/server";
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import { sessionOptions } from "~/lib/lib";
 
 import { db } from "~/server/db";
 
@@ -25,9 +28,12 @@ import { db } from "~/server/db";
  * @see https://trpc.io/docs/server/context
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
+  //Made it accept user:string as input just because
+  const session = await getIronSession<{user:string}>(cookies(), sessionOptions);
   return {
     db,
     ...opts,
+    session
   };
 };
 
